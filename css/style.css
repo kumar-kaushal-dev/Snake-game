@@ -1,0 +1,408 @@
+   * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: url("../img/background.jpg");
+            min-height: 100vh;
+            background-size: 100vw 100vh;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        .game-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.1);
+        }
+
+        .ui-panel {
+            display: flex;
+            justify-content: space-between;
+            width: 90vmin;
+            max-width: 600px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .score-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px 25px;
+            border-radius: 15px;
+            color: white;
+            font-weight: bold;
+            font-size: clamp(16px, 4vw, 24px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .score-container:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .level-indicator {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            padding: 15px 25px;
+            border-radius: 15px;
+            color: white;
+            font-weight: bold;
+            font-size: clamp(16px, 4vw, 24px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        #board {
+            background: linear-gradient(135deg, #e8f5e8, #d4f1d4);
+            width: 90vmin;
+            height: 90vmin;
+            max-width: 600px;
+            max-height: 600px;
+            border: 4px solid #2c3e50;
+            border-radius: 15px;
+            display: grid;
+            grid-template-rows: repeat(20, 1fr);
+            grid-template-columns: repeat(20, 1fr);
+            gap: 1px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(2px);
+        }
+
+        .head {
+            background: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+            background-size: 400% 400%;
+            animation: gradientShift 2s ease infinite, headGlow 1.5s ease-in-out infinite alternate;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.6);
+            position: relative;
+            z-index: 10;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes headGlow {
+            0% { box-shadow: 0 0 20px rgba(255, 107, 107, 0.6); }
+            100% { box-shadow: 0 0 30px rgba(255, 107, 107, 0.9), 0 0 40px rgba(255, 107, 107, 0.4); }
+        }
+
+        .snake {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            border: 2px solid #1e8449;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            box-shadow: 0 3px 10px rgba(46, 204, 113, 0.4), inset 0 1px 3px rgba(255, 255, 255, 0.3);
+            animation: snakeSegment 0.3s ease-out;
+            position: relative;
+        }
+
+        .snake::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), transparent);
+            border-radius: 3px;
+        }
+
+        @keyframes snakeSegment {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .food {
+            background: radial-gradient(circle, #ffd700 20%, #ff6b6b 70%, #ff4757 100%);
+            border: 3px solid #fff;
+            border-radius: 50%;
+            animation: foodPulse 1s ease-in-out infinite, rotate 3s linear infinite;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.9), 0 0 40px rgba(255, 107, 107, 0.5);
+            position: relative;
+            z-index: 100 !important;
+        }
+
+        .food::before {
+            content: '🍎';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 60%;
+            z-index: 101;
+        }
+
+        @keyframes foodPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .power-up {
+            background: radial-gradient(circle, #00ff88 20%, #00cc88 70%, #009966 100%);
+            border: 3px solid #fff;
+            border-radius: 50%;
+            animation: powerUpGlow 0.8s ease-in-out infinite alternate, rotate 2s linear infinite;
+            box-shadow: 0 0 25px rgba(0, 255, 136, 1), 0 0 50px rgba(0, 255, 136, 0.6);
+            position: relative;
+            z-index: 100 !important;
+        }
+
+        .power-up::before {
+            content: '⚡';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 70%;
+            z-index: 101;
+            color: white;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.8);
+        }
+
+        .speed-boost {
+            background: radial-gradient(circle, #ff6b6b 20%, #ee5a52 70%, #cc4125 100%);
+            border: 3px solid #fff;
+            border-radius: 50%;
+            animation: speedBoostPulse 0.5s ease-in-out infinite alternate, rotate 4s linear infinite;
+            box-shadow: 0 0 25px rgba(255, 107, 107, 1), 0 0 50px rgba(255, 107, 107, 0.6);
+            position: relative;
+            z-index: 100 !important;
+        }
+
+        .speed-boost::before {
+            content: '🚀';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 60%;
+            z-index: 101;
+        }
+
+        @keyframes speedBoostPulse {
+            0% { transform: scale(1) rotate(0deg); }
+            100% { transform: scale(1.3) rotate(180deg); }
+        }
+
+        @keyframes powerUpGlow {
+            0% { box-shadow: 0 0 20px rgba(0, 255, 136, 0.8); }
+            100% { box-shadow: 0 0 30px rgba(0, 255, 136, 1), 0 0 40px rgba(0, 255, 136, 0.6); }
+        }
+
+        .game-over-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: modalSlide 0.5s ease-out;
+        }
+
+        @keyframes modalSlide {
+            0% { transform: translateY(-100px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-content h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        .restart-btn {
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .restart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .controls-info {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            backdrop-filter: blur(10px);
+        }
+
+        .pause-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 10px;
+            font-size: 24px;
+            display: none;
+            z-index: 100;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #ffd700;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: particle 1s linear forwards;
+        }
+
+        @keyframes particle {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0) translate(var(--dx), var(--dy));
+            }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .ui-panel {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .score-container, .level-indicator {
+                font-size: 18px;
+                padding: 10px 20px;
+            }
+            
+            #board {
+                width: 95vmin;
+                height: 95vmin;
+            }
+        }
+
+        /* Touch Controls */
+        .touch-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: none;
+            grid-template-columns: repeat(3, 60px);
+            grid-template-rows: repeat(3, 60px);
+            gap: 8px;
+            width: 188px;
+            height: 188px;
+            z-index: 1000;
+        }
+
+        .touch-btn {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 12px;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            -webkit-user-select: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .touch-btn:active {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(0.95);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .touch-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .touch-btn.pause-btn {
+            background: rgba(255, 107, 107, 0.8);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .touch-btn.pause-btn:active {
+            background: rgba(255, 107, 107, 1);
+        }
+
+        @media (max-width: 768px) {
+            .touch-controls {
+                display: grid;
+            }
+            .controls-info {
+                display: none;
+            }
+        }

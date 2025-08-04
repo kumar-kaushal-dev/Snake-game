@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultra Pro Snake World</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="ui-panel">
+            <div id="scoreBox" class="score-container">Score: 0</div>
+            <div id="highScoreBox" class="score-container">High Score: 0</div>
+            <div id="levelBox" class="level-indicator">Level: 1</div>
+        </div>
+        <div id="board">
+            <div class="pause-indicator" id="pauseIndicator">PAUSED</div>
+        </div>
+    </div>
+
+    <div class="game-over-modal" id="gameOverModal">
+        <div class="modal-content">
+            <h2>Game Over!</h2>
+            <p id="finalScoreText">Your Score: 0</p>
+            <p id="levelReachedText">Level Reached: 1</p>
+            <button class="restart-btn" onclick="restartGame()">Play Again</button>
+        </div>
+    </div>
+
+    <div class="controls-info">
+        Use Arrow Keys to move • Space to Pause • R to Restart
+    </div>
+
+    <div class="touch-controls">
+        <div></div>
+        <div class="touch-btn" data-direction="up">↑</div>
+        <div></div>
+        <div class="touch-btn" data-direction="left">←</div>
+        <div class="touch-btn pause-btn" data-direction="pause">⏸</div>
+        <div class="touch-btn" data-direction="right">→</div>
+        <div></div>
+        <div class="touch-btn" data-direction="down">↓</div>
+        <div></div>
+    </div>
+    <script src="js/index.js"></script>
+</body>
+
+</html>

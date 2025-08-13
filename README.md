@@ -4,12 +4,6 @@ Welcome to my modern version of the **classic Snake Game** — built with pure *
 
 ---
 
-## 🚀 Live Demo
-
-Coming soon with GitHub Pages...
-
----
-
 ## 🧠 Features
 
 - 🎮 Classic snake gameplay with arrow key controls
